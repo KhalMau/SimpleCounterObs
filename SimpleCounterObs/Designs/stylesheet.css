@@ -1,0 +1,53 @@
+:root {
+  --font-family: Segoe UI, system-ui, sans-serif;
+  --font-size: 64px;
+}
+
+html, body {
+  margin: 0;
+  background: transparent;
+}
+
+body {
+  color: white;
+  font-family: var(--font-family);
+  text-align: center;
+}
+
+/* Contenedor */
+#box {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .25rem;
+  padding: .5rem .75rem;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, .50);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, .2);
+}
+
+/* Título y valor */
+#title {
+  font-size: 18px;
+  opacity: .85;
+}
+
+#value {
+  font-size: var(--font-size);
+  font-weight: 800;
+  letter-spacing: .5px;
+  text-shadow: 0 2px 8px rgba(0,0,0,.35);
+  line-height: 1.05;
+}
+
+/* Modo "solo número": sin caja ni título */
+.minimal #box {
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.hide-title #title {
+  display: none;
+}
