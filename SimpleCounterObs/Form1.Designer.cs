@@ -167,7 +167,6 @@ namespace SimpleCounterObs
             Controls.Add(txtTitle);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
-            MinimizeBox = false;
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Simple Counter";

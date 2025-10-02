@@ -58,7 +58,7 @@ namespace SimpleCounterObs
             this.Resize += MainForm_Resize;
 
             // (opcional) si quieres “cerrar” con la X, que vaya a tray:
-            this.FormClosing += MainForm_FormClosing;
+            
 
         }
 
@@ -149,7 +149,7 @@ namespace SimpleCounterObs
             }
         }
 
-        private void MainForm_FormClosing(object? sender, FormClosingEventArgs e)
+        /*private void MainForm_FormClosing(object? sender, FormClosingEventArgs e)
         {
             // Si el usuario cierra con la X, lo mandamos a la bandeja en vez de salir.
             if (e.CloseReason == CloseReason.UserClosing)
@@ -157,7 +157,7 @@ namespace SimpleCounterObs
                 e.Cancel = true;
                 GoToTray();
             }
-        }
+        }*/
 
         private void GoToTray()
         {
