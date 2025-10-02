@@ -149,15 +149,7 @@ namespace SimpleCounterObs
             }
         }
 
-        /*private void MainForm_FormClosing(object? sender, FormClosingEventArgs e)
-        {
-            // Si el usuario cierra con la X, lo mandamos a la bandeja en vez de salir.
-            if (e.CloseReason == CloseReason.UserClosing)
-            {
-                e.Cancel = true;
-                GoToTray();
-            }
-        }*/
+        
 
         private void GoToTray()
         {
@@ -172,7 +164,7 @@ namespace SimpleCounterObs
                 try
                 {
                     _tray.BalloonTipTitle = "SimpleCounterObs";
-                    _tray.BalloonTipText = "Sigo ejecutándome en segundo plano.\nDoble clic para abrir o usa el menú.";
+                    _tray.BalloonTipText = "Still working here!.";
                     _tray.ShowBalloonTip(2000);
                 }
                 catch { }
