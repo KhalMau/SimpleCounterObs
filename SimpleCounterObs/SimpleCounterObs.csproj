@@ -36,6 +36,9 @@
     <None Update="app.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\app.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Designs\javascript.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

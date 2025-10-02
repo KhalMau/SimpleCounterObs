@@ -57,16 +57,16 @@ namespace SimpleCounterObs
             // 
             // txtTitle
             // 
-            txtTitle.Location = new Point(87, 21);
+            txtTitle.Location = new Point(103, 45);
             txtTitle.Name = "txtTitle";
-            txtTitle.Size = new Size(246, 23);
+            txtTitle.Size = new Size(287, 23);
             txtTitle.TabIndex = 0;
             txtTitle.TextChanged += txtTitle_TextChanged;
             // 
             // lblTitle
             // 
             lblTitle.AutoSize = true;
-            lblTitle.Location = new Point(25, 24);
+            lblTitle.Location = new Point(25, 53);
             lblTitle.Name = "lblTitle";
             lblTitle.Size = new Size(41, 15);
             lblTitle.TabIndex = 1;
@@ -75,16 +75,16 @@ namespace SimpleCounterObs
             // lblValue
             // 
             lblValue.Font = new Font("Segoe UI", 24F, FontStyle.Bold);
-            lblValue.Location = new Point(146, 92);
+            lblValue.Location = new Point(209, 98);
             lblValue.Name = "lblValue";
-            lblValue.Size = new Size(83, 45);
+            lblValue.Size = new Size(75, 57);
             lblValue.TabIndex = 2;
             lblValue.Text = "0";
             lblValue.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // btnInc
             // 
-            btnInc.Location = new Point(251, 103);
+            btnInc.Location = new Point(107, 95);
             btnInc.Name = "btnInc";
             btnInc.Size = new Size(82, 27);
             btnInc.TabIndex = 3;
@@ -94,7 +94,7 @@ namespace SimpleCounterObs
             // 
             // btnDec
             // 
-            btnDec.Location = new Point(44, 103);
+            btnDec.Location = new Point(107, 128);
             btnDec.Name = "btnDec";
             btnDec.Size = new Size(82, 27);
             btnDec.TabIndex = 4;
@@ -104,9 +104,9 @@ namespace SimpleCounterObs
             // 
             // btnReset
             // 
-            btnReset.Location = new Point(339, 20);
+            btnReset.Location = new Point(209, 170);
             btnReset.Name = "btnReset";
-            btnReset.Size = new Size(34, 23);
+            btnReset.Size = new Size(75, 27);
             btnReset.TabIndex = 5;
             btnReset.Text = "Reset";
             btnReset.UseVisualStyleBackColor = true;
@@ -115,25 +115,28 @@ namespace SimpleCounterObs
             // lblOverlay
             // 
             lblOverlay.AutoSize = true;
-            lblOverlay.Location = new Point(25, 62);
+            lblOverlay.Location = new Point(25, 16);
             lblOverlay.Name = "lblOverlay";
-            lblOverlay.Size = new Size(92, 15);
+            lblOverlay.Size = new Size(72, 15);
             lblOverlay.TabIndex = 6;
-            lblOverlay.Text = "Archivo overlay:";
+            lblOverlay.Text = "URL overlay:";
+            lblOverlay.Click += lblOverlay_Click;
             // 
             // txtOverlay
             // 
-            txtOverlay.Location = new Point(129, 59);
+            txtOverlay.Location = new Point(396, 12);
             txtOverlay.Name = "txtOverlay";
             txtOverlay.ReadOnly = true;
-            txtOverlay.Size = new Size(204, 23);
+            txtOverlay.Size = new Size(10, 23);
             txtOverlay.TabIndex = 7;
+            txtOverlay.Visible = false;
+            txtOverlay.TextChanged += txtOverlay_TextChanged;
             // 
             // btnCopy
             // 
-            btnCopy.Location = new Point(339, 59);
+            btnCopy.Location = new Point(103, 12);
             btnCopy.Name = "btnCopy";
-            btnCopy.Size = new Size(53, 23);
+            btnCopy.Size = new Size(287, 23);
             btnCopy.TabIndex = 8;
             btnCopy.Text = "Copiar";
             btnCopy.UseVisualStyleBackColor = true;
@@ -141,9 +144,9 @@ namespace SimpleCounterObs
             // 
             // button1
             // 
-            button1.Location = new Point(146, 163);
+            button1.Location = new Point(107, 170);
             button1.Name = "button1";
-            button1.Size = new Size(75, 23);
+            button1.Size = new Size(82, 27);
             button1.TabIndex = 9;
             button1.Text = "Config.";
             button1.UseVisualStyleBackColor = true;

@@ -21,7 +21,7 @@ namespace SimpleCounterObs
             InitializeComponent();
             _state = _config.Load();
 
-            
+
             _trayMenu = new ContextMenuStrip();
             _trayMenu.Items.Add("Mostrar", null, (s, e) => RestoreFromTray());
             _trayMenu.Items.Add(new ToolStripSeparator());
@@ -31,11 +31,11 @@ namespace SimpleCounterObs
             _trayMenu.Items.Add(new ToolStripSeparator());
             _trayMenu.Items.Add("Salir", null, (s, e) => ExitApplication());
 
-            
+
             _tray = new NotifyIcon
             {
                 Text = "SimpleCounterObs",
-                Visible = false,                  
+                Visible = false,
                 ContextMenuStrip = _trayMenu
             };
 
@@ -43,7 +43,7 @@ namespace SimpleCounterObs
             string icoPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "app.ico");
             if (File.Exists(icoPath))
             {
-                _tray.Icon = new Icon(icoPath);  
+                _tray.Icon = new Icon(icoPath);
             }
             else
             {
@@ -58,7 +58,7 @@ namespace SimpleCounterObs
             this.Resize += MainForm_Resize;
 
             // (opcional) si quieres “cerrar” con la X, que vaya a tray:
-            
+
 
         }
 
@@ -149,7 +149,7 @@ namespace SimpleCounterObs
             }
         }
 
-        
+
 
         private void GoToTray()
         {
@@ -188,5 +188,14 @@ namespace SimpleCounterObs
             Application.Exit();
         }
 
+        private void lblOverlay_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtOverlay_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
