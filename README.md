@@ -9,7 +9,7 @@ i was tire to rewrite a txt for have a counter on the overlay of OBS so i made s
 
 # INSTRUCTIONS
 
--Add the local HTML file on Designs folder ont your broadcasting software
+- Add the local HTML file on Designs folder ont your broadcasting software
 
 
 # KEYFEATURES
