@@ -70,6 +70,13 @@ namespace SimpleCounterObs
             }
         }
 
+        // dentro de HotkeyManager
+        public void SetEdgeMode(bool edgeOnly)
+        {
+            _edgeOnly = edgeOnly;
+        }
+
+
         // -------------------- Hook --------------------
         private IntPtr SetHook(LowLevelKeyboardProc proc)
         {

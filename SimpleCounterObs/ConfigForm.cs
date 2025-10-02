@@ -262,5 +262,14 @@ namespace SimpleCounterObs
             parts.Add(keyName);
             return string.Join("+", parts);
         }
+
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            base.OnMouseDown(e);
+
+            // Si haces clic en el fondo del formulario (no sobre otro control)
+            this.ActiveControl = null;
+        }
+
     }
 }
