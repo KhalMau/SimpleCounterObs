@@ -35,180 +35,215 @@ namespace SimpleCounterObs
 
         private void InitializeComponent()
         {
-            this.tabs = new System.Windows.Forms.TabControl();
-            this.tabHotkeys = new System.Windows.Forms.TabPage();
-            this.tabStyle = new System.Windows.Forms.TabPage();
-
-            this.txtInc = new System.Windows.Forms.TextBox();
-            this.txtDec = new System.Windows.Forms.TextBox();
-            this.txtReset = new System.Windows.Forms.TextBox();
-            this.lblInc = new System.Windows.Forms.Label();
-            this.lblDec = new System.Windows.Forms.Label();
-            this.lblReset = new System.Windows.Forms.Label();
-
-            this.cboFont = new System.Windows.Forms.ComboBox();
-            this.nudSize = new System.Windows.Forms.NumericUpDown();
-            this.chkMinimal = new System.Windows.Forms.CheckBox();
-            this.chkShowTitle = new System.Windows.Forms.CheckBox();
-            this.lblFont = new System.Windows.Forms.Label();
-            this.lblSize = new System.Windows.Forms.Label();
-
-            this.btnOk = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
-
-            ((System.ComponentModel.ISupportInitialize)(this.nudSize)).BeginInit();
-            this.tabs.SuspendLayout();
-            this.tabHotkeys.SuspendLayout();
-            this.tabStyle.SuspendLayout();
-            this.SuspendLayout();
-
+            tabs = new TabControl();
+            tabHotkeys = new TabPage();
+            lblInc = new Label();
+            txtInc = new TextBox();
+            lblDec = new Label();
+            txtDec = new TextBox();
+            lblReset = new Label();
+            txtReset = new TextBox();
+            tabStyle = new TabPage();
+            lblFont = new Label();
+            cboFont = new ComboBox();
+            lblSize = new Label();
+            nudSize = new NumericUpDown();
+            chkMinimal = new CheckBox();
+            chkShowTitle = new CheckBox();
+            btnOk = new Button();
+            btnCancel = new Button();
+            tabs.SuspendLayout();
+            tabHotkeys.SuspendLayout();
+            tabStyle.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)nudSize).BeginInit();
+            SuspendLayout();
+            // 
             // tabs
-            this.tabs.Controls.Add(this.tabHotkeys);
-            this.tabs.Controls.Add(this.tabStyle);
-            this.tabs.Location = new System.Drawing.Point(12, 12);
-            this.tabs.Name = "tabs";
-            this.tabs.Size = new System.Drawing.Size(420, 200);
-            this.tabs.TabIndex = 0;
-
+            // 
+            tabs.Controls.Add(tabHotkeys);
+            tabs.Controls.Add(tabStyle);
+            tabs.Location = new Point(12, 12);
+            tabs.Name = "tabs";
+            tabs.SelectedIndex = 0;
+            tabs.Size = new Size(420, 200);
+            tabs.TabIndex = 0;
+            // 
             // tabHotkeys
-            this.tabHotkeys.Text = "Hotkeys";
-            this.tabHotkeys.UseVisualStyleBackColor = true;
-            this.tabHotkeys.Name = "tabHotkeys";
-
+            // 
+            tabHotkeys.Controls.Add(lblInc);
+            tabHotkeys.Controls.Add(txtInc);
+            tabHotkeys.Controls.Add(lblDec);
+            tabHotkeys.Controls.Add(txtDec);
+            tabHotkeys.Controls.Add(lblReset);
+            tabHotkeys.Controls.Add(txtReset);
+            tabHotkeys.Location = new Point(4, 24);
+            tabHotkeys.Name = "tabHotkeys";
+            tabHotkeys.Size = new Size(412, 172);
+            tabHotkeys.TabIndex = 0;
+            tabHotkeys.Text = "Hotkeys";
+            tabHotkeys.UseVisualStyleBackColor = true;
+            // 
             // lblInc
-            this.lblInc.AutoSize = true;
-            this.lblInc.Location = new System.Drawing.Point(16, 18);
-            this.lblInc.Name = "lblInc";
-            this.lblInc.Size = new System.Drawing.Size(68, 15);
-            this.lblInc.Text = "Increment:";
-
+            // 
+            lblInc.AutoSize = true;
+            lblInc.Location = new Point(16, 18);
+            lblInc.Name = "lblInc";
+            lblInc.Size = new Size(64, 15);
+            lblInc.TabIndex = 0;
+            lblInc.Text = "Increment:";
+            // 
             // txtInc
-            this.txtInc.Location = new System.Drawing.Point(120, 15);
-            this.txtInc.Name = "txtInc";
-            this.txtInc.Size = new System.Drawing.Size(250, 23);
-
+            // 
+            txtInc.Location = new Point(120, 15);
+            txtInc.Name = "txtInc";
+            txtInc.ReadOnly = true;
+            txtInc.Size = new Size(250, 23);
+            txtInc.TabIndex = 1;
+            // 
             // lblDec
-            this.lblDec.AutoSize = true;
-            this.lblDec.Location = new System.Drawing.Point(16, 58);
-            this.lblDec.Name = "lblDec";
-            this.lblDec.Size = new System.Drawing.Size(72, 15);
-            this.lblDec.Text = "Decrement:";
-
+            // 
+            lblDec.AutoSize = true;
+            lblDec.Location = new Point(16, 58);
+            lblDec.Name = "lblDec";
+            lblDec.Size = new Size(68, 15);
+            lblDec.TabIndex = 2;
+            lblDec.Text = "Decrement:";
+            // 
             // txtDec
-            this.txtDec.Location = new System.Drawing.Point(120, 55);
-            this.txtDec.Name = "txtDec";
-            this.txtDec.Size = new System.Drawing.Size(250, 23);
-
+            // 
+            txtDec.Location = new Point(120, 55);
+            txtDec.Name = "txtDec";
+            txtDec.ReadOnly = true;
+            txtDec.Size = new Size(250, 23);
+            txtDec.TabIndex = 3;
+            // 
             // lblReset
-            this.lblReset.AutoSize = true;
-            this.lblReset.Location = new System.Drawing.Point(16, 98);
-            this.lblReset.Name = "lblReset";
-            this.lblReset.Size = new System.Drawing.Size(38, 15);
-            this.lblReset.Text = "Reset:";
-
+            // 
+            lblReset.AutoSize = true;
+            lblReset.Location = new Point(16, 98);
+            lblReset.Name = "lblReset";
+            lblReset.Size = new Size(38, 15);
+            lblReset.TabIndex = 4;
+            lblReset.Text = "Reset:";
+            // 
             // txtReset
-            this.txtReset.Location = new System.Drawing.Point(120, 95);
-            this.txtReset.Name = "txtReset";
-            this.txtReset.Size = new System.Drawing.Size(250, 23);
-
-            // add hotkeys controls to tab
-            this.tabHotkeys.Controls.Add(this.lblInc);
-            this.tabHotkeys.Controls.Add(this.txtInc);
-            this.tabHotkeys.Controls.Add(this.lblDec);
-            this.tabHotkeys.Controls.Add(this.txtDec);
-            this.tabHotkeys.Controls.Add(this.lblReset);
-            this.tabHotkeys.Controls.Add(this.txtReset);
-
+            // 
+            txtReset.Location = new Point(120, 95);
+            txtReset.Name = "txtReset";
+            txtReset.ReadOnly = true;
+            txtReset.Size = new Size(250, 23);
+            txtReset.TabIndex = 5;
+            // 
             // tabStyle
-            this.tabStyle.Text = "Style";
-            this.tabStyle.UseVisualStyleBackColor = true;
-            this.tabStyle.Name = "tabStyle";
-
+            // 
+            tabStyle.Controls.Add(lblFont);
+            tabStyle.Controls.Add(cboFont);
+            tabStyle.Controls.Add(lblSize);
+            tabStyle.Controls.Add(nudSize);
+            tabStyle.Controls.Add(chkMinimal);
+            tabStyle.Controls.Add(chkShowTitle);
+            tabStyle.Location = new Point(4, 24);
+            tabStyle.Name = "tabStyle";
+            tabStyle.Size = new Size(412, 172);
+            tabStyle.TabIndex = 1;
+            tabStyle.Text = "Style";
+            tabStyle.UseVisualStyleBackColor = true;
+            // 
             // lblFont
-            this.lblFont.AutoSize = true;
-            this.lblFont.Location = new System.Drawing.Point(16, 18);
-            this.lblFont.Name = "lblFont";
-            this.lblFont.Size = new System.Drawing.Size(71, 15);
-            this.lblFont.Text = "Font family:";
-
+            // 
+            lblFont.AutoSize = true;
+            lblFont.Location = new Point(16, 18);
+            lblFont.Name = "lblFont";
+            lblFont.Size = new Size(70, 15);
+            lblFont.TabIndex = 0;
+            lblFont.Text = "Font family:";
+            // 
             // cboFont
-            this.cboFont.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboFont.Location = new System.Drawing.Point(120, 15);
-            this.cboFont.Name = "cboFont";
-            this.cboFont.Size = new System.Drawing.Size(250, 23);
-
+            // 
+            cboFont.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboFont.Location = new Point(120, 15);
+            cboFont.Name = "cboFont";
+            cboFont.Size = new Size(250, 23);
+            cboFont.TabIndex = 1;
+            // 
             // lblSize
-            this.lblSize.AutoSize = true;
-            this.lblSize.Location = new System.Drawing.Point(16, 58);
-            this.lblSize.Name = "lblSize";
-            this.lblSize.Size = new System.Drawing.Size(56, 15);
-            this.lblSize.Text = "Font size:";
-
+            // 
+            lblSize.AutoSize = true;
+            lblSize.Location = new Point(16, 58);
+            lblSize.Name = "lblSize";
+            lblSize.Size = new Size(56, 15);
+            lblSize.TabIndex = 2;
+            lblSize.Text = "Font size:";
+            // 
             // nudSize
-            this.nudSize.Location = new System.Drawing.Point(120, 55);
-            this.nudSize.Minimum = 10;
-            this.nudSize.Maximum = 300;
-            this.nudSize.Value = 64;
-            this.nudSize.Name = "nudSize";
-            this.nudSize.Size = new System.Drawing.Size(90, 23);
-
+            // 
+            nudSize.Location = new Point(120, 55);
+            nudSize.Maximum = new decimal(new int[] { 300, 0, 0, 0 });
+            nudSize.Minimum = new decimal(new int[] { 10, 0, 0, 0 });
+            nudSize.Name = "nudSize";
+            nudSize.Size = new Size(90, 23);
+            nudSize.TabIndex = 3;
+            nudSize.Value = new decimal(new int[] { 64, 0, 0, 0 });
+            // 
             // chkMinimal
-            this.chkMinimal.AutoSize = true;
-            this.chkMinimal.Location = new System.Drawing.Point(16, 95);
-            this.chkMinimal.Name = "chkMinimal";
-            this.chkMinimal.Size = new System.Drawing.Size(191, 19);
-            this.chkMinimal.Text = "Solo número (sin fondo/box)";
-
+            // 
+            chkMinimal.AutoSize = true;
+            chkMinimal.Checked = true;
+            chkMinimal.CheckState = CheckState.Checked;
+            chkMinimal.Location = new Point(16, 95);
+            chkMinimal.Name = "chkMinimal";
+            chkMinimal.Size = new Size(131, 19);
+            chkMinimal.TabIndex = 4;
+            chkMinimal.Text = "No background box";
+            // 
             // chkShowTitle
-            this.chkShowTitle.AutoSize = true;
-            this.chkShowTitle.Location = new System.Drawing.Point(16, 125);
-            this.chkShowTitle.Name = "chkShowTitle";
-            this.chkShowTitle.Size = new System.Drawing.Size(101, 19);
-            this.chkShowTitle.Text = "Mostrar título";
-            this.chkShowTitle.Checked = true;
-
-            // add style controls to tab
-            this.tabStyle.Controls.Add(this.lblFont);
-            this.tabStyle.Controls.Add(this.cboFont);
-            this.tabStyle.Controls.Add(this.lblSize);
-            this.tabStyle.Controls.Add(this.nudSize);
-            this.tabStyle.Controls.Add(this.chkMinimal);
-            this.tabStyle.Controls.Add(this.chkShowTitle);
-
+            // 
+            chkShowTitle.AutoSize = true;
+            chkShowTitle.Checked = true;
+            chkShowTitle.CheckState = CheckState.Checked;
+            chkShowTitle.Location = new Point(16, 125);
+            chkShowTitle.Name = "chkShowTitle";
+            chkShowTitle.Size = new Size(81, 19);
+            chkShowTitle.TabIndex = 5;
+            chkShowTitle.Text = "Show Title";
+            // 
             // btnOk
-            this.btnOk.Location = new System.Drawing.Point(246, 220);
-            this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(75, 23);
-            this.btnOk.Text = "OK";
-            // (NO lambdas aquí; el click se cablea en ConfigForm.cs)
-
+            // 
+            btnOk.Location = new Point(246, 220);
+            btnOk.Name = "btnOk";
+            btnOk.Size = new Size(75, 23);
+            btnOk.TabIndex = 1;
+            btnOk.Text = "OK";
+            // 
             // btnCancel
-            this.btnCancel.Location = new System.Drawing.Point(336, 220);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.Text = "Cancelar";
-            // (NO lambdas aquí; el click se cablea en ConfigForm.cs)
-
-            // form
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(444, 255);
-            this.Controls.Add(this.tabs);
-            this.Controls.Add(this.btnOk);
-            this.Controls.Add(this.btnCancel);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Configuración";
-
-            this.tabs.ResumeLayout(false);
-            this.tabHotkeys.ResumeLayout(false);
-            this.tabHotkeys.PerformLayout();
-            this.tabStyle.ResumeLayout(false);
-            this.tabStyle.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudSize)).EndInit();
-            this.ResumeLayout(false);
+            // 
+            btnCancel.Location = new Point(336, 220);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(75, 23);
+            btnCancel.TabIndex = 2;
+            btnCancel.Text = "Cancel";
+            // 
+            // ConfigForm
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(444, 255);
+            Controls.Add(tabs);
+            Controls.Add(btnOk);
+            Controls.Add(btnCancel);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "ConfigForm";
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "Settings";
+            tabs.ResumeLayout(false);
+            tabHotkeys.ResumeLayout(false);
+            tabHotkeys.PerformLayout();
+            tabStyle.ResumeLayout(false);
+            tabStyle.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)nudSize).EndInit();
+            ResumeLayout(false);
         }
     }
 }

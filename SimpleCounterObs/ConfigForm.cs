@@ -1,6 +1,4 @@
 ﻿using System.Drawing.Text;
-using System.Linq;
-using System.Windows.Forms;
 
 namespace SimpleCounterObs
 {
@@ -8,21 +6,14 @@ namespace SimpleCounterObs
     {
         private readonly CounterState _state;
 
-
-
-        // el MainForm inyecta esto para suspender/reanudar el hook
+        // Inyectado desde el MainForm para suspender/reanudar el hook global
         public Action<bool>? ToggleHotkeys;
 
         private enum HotkeyTarget { None, Increment, Decrement, Reset }
+
         private HotkeyTarget _captureTarget = HotkeyTarget.None;
-        private string _prevText = "";
-        private TextBox? _captureBox; // referencia al textbox que está capturando
-        private bool _prevReadOnly = false;
-        private bool _prevShortcutsEnabled = true;
-
-
-
-
+        private TextBox? _captureBox;        // textbox que está capturando
+        private string _prevText = "";       // texto previo para restaurar en cancelar
 
         public ConfigForm(CounterState state)
         {
@@ -30,15 +21,15 @@ namespace SimpleCounterObs
             InitializeComponent();
 
             // Botones
-            btnOk.Click += (s, e) => { this.DialogResult = DialogResult.OK; Close(); };
-            btnCancel.Click += (s, e) => { this.DialogResult = DialogResult.Cancel; Close(); };
+            btnOk.Click += (_, __) => { DialogResult = DialogResult.OK; Close(); };
+            btnCancel.Click += (_, __) => { DialogResult = DialogResult.Cancel; Close(); };
 
-            // Hotkeys: al hacer click, entrar en captura
-            txtInc.Click += (s, e) => BeginCapture(HotkeyTarget.Increment, txtInc);
-            txtDec.Click += (s, e) => BeginCapture(HotkeyTarget.Decrement, txtDec);
-            txtReset.Click += (s, e) => BeginCapture(HotkeyTarget.Reset, txtReset);
+            // Entrar a captura al hacer clic
+            txtInc.Click += (_, __) => BeginCapture(HotkeyTarget.Increment, txtInc);
+            txtDec.Click += (_, __) => BeginCapture(HotkeyTarget.Decrement, txtDec);
+            txtReset.Click += (_, __) => BeginCapture(HotkeyTarget.Reset, txtReset);
 
-            // Captura con KeyDown, bloquear escritura con KeyPress
+            // Captura por teclado y bloqueo de escritura
             txtInc.KeyDown += HotkeyBox_KeyDown;
             txtDec.KeyDown += HotkeyBox_KeyDown;
             txtReset.KeyDown += HotkeyBox_KeyDown;
@@ -47,20 +38,33 @@ namespace SimpleCounterObs
             txtDec.KeyPress += HotkeyBox_KeyPress;
             txtReset.KeyPress += HotkeyBox_KeyPress;
 
+            // Asegura que los textboxes no acepten edición directa (por si no lo dejaste en el diseñador)
+            ConfigureHotkeyTextBox(txtInc);
+            ConfigureHotkeyTextBox(txtDec);
+            ConfigureHotkeyTextBox(txtReset);
+
             LoadFonts();
             LoadFromState();
         }
 
+        private void ConfigureHotkeyTextBox(TextBox box)
+        {
+            box.ReadOnly = true;          // sin edición directa
+            box.ShortcutsEnabled = false; // sin Ctrl+V, etc.
+            box.ImeMode = ImeMode.Disable;
+            box.Cursor = Cursors.Hand;    // indicativo visual
+        }
 
+        // ------------------------
+        // Carga de UI
+        // ------------------------
         private void LoadFonts()
         {
-            using var ifc = new System.Drawing.Text.InstalledFontCollection();
+            using var ifc = new InstalledFontCollection();
             var families = ifc.Families.Select(f => f.Name).OrderBy(n => n).ToArray();
+
             cboFont.Items.Clear();
             cboFont.Items.AddRange(families);
-
-            // si prefieres permitir escribir a mano:
-            // cboFont.DropDownStyle = ComboBoxStyle.DropDown;
         }
 
         private void LoadFromState()
@@ -69,14 +73,9 @@ namespace SimpleCounterObs
             txtDec.Text = _state.Hotkeys.Decrement;
             txtReset.Text = _state.Hotkeys.Reset;
 
-            // Seleccionar fuente en el combo (si está en la lista)
             var idx = cboFont.Items.IndexOf(_state.Style.FontFamily);
             if (idx >= 0) cboFont.SelectedIndex = idx;
-            else
-            {
-                // si no está listada, coloca el texto igualmente
-                cboFont.Text = _state.Style.FontFamily ?? "Segoe UI";
-            }
+            else cboFont.Text = _state.Style.FontFamily ?? "Segoe UI";
 
             nudSize.Value = Math.Max(nudSize.Minimum, Math.Min(nudSize.Maximum, _state.Style.FontSize));
             chkMinimal.Checked = _state.Style.Minimal;
@@ -96,9 +95,8 @@ namespace SimpleCounterObs
             if (_state.Hotkeys.Decrement != dec) { _state.Hotkeys.Decrement = dec; changed = true; }
             if (_state.Hotkeys.Reset != res) { _state.Hotkeys.Reset = res; changed = true; }
 
-            // Style
-            // si usas DropDownList, SelectedItem; si permites texto libre, usa Text
-            string fontName = cboFont.SelectedItem?.ToString() ?? cboFont.Text?.Trim() ?? "Segoe UI";
+            // Estilo
+            string fontName = cboFont.SelectedItem?.ToString() ?? (cboFont.Text?.Trim() ?? "Segoe UI");
             int fontSize = (int)nudSize.Value;
             bool minimal = chkMinimal.Checked;
             bool showTitle = chkShowTitle.Checked;
@@ -111,165 +109,120 @@ namespace SimpleCounterObs
             return changed;
         }
 
-        // ---- captura ----
+        // ------------------------
+        // Captura de hotkeys (simplificada)
+        // ------------------------
         private void BeginCapture(HotkeyTarget target, TextBox box)
         {
+            // Si ya hay otra captura activa, cancélala primero
+            if (_captureTarget != HotkeyTarget.None)
+                CancelCapture();
+
             _captureTarget = target;
             _captureBox = box;
 
             _prevText = box.Text;
-            _prevReadOnly = box.ReadOnly;
-            _prevShortcutsEnabled = box.ShortcutsEnabled;
-
-            box.ReadOnly = true;             // evita que “escriba”
-            box.ShortcutsEnabled = false;    // evita Ctrl+V, etc.
-            box.ImeMode = ImeMode.Disable;   // opcional
-
-            box.Text = "Presione la tecla… (ESC para cancelar)";
+            box.Text = "Press key… (ESC to cancel)";
             box.SelectAll();
             box.Focus();
 
-            // si cambia foco a otro control → cancelar
+            // Cancelar si pierde foco o clicas fuera
             box.Leave += CaptureBox_Leave;
+            ToggleClickAwayHandlers(true);
 
-            // si clicas en el “fondo” → cancelar
-            HookClickAwayHandlers();
-
-            // no dispares macros mientras capturas
+            // Pausar hooks globales durante la captura
             ToggleHotkeys?.Invoke(false);
         }
 
-        private void CancelCapture()
-        {
-            if (_captureTarget == HotkeyTarget.None || _captureBox == null) return;
-
-            _captureBox.Text = _prevText;
-            _captureBox.ReadOnly = _prevReadOnly;
-            _captureBox.ShortcutsEnabled = _prevShortcutsEnabled;
-
-            _captureBox.Leave -= CaptureBox_Leave;
-            UnhookClickAwayHandlers();
-            _captureBox = null;
-
-            _captureTarget = HotkeyTarget.None;
-            ToggleHotkeys?.Invoke(true);
-        }
-
-        private void FinishCapture()
+        private void EndCapture(bool commit)
         {
             if (_captureBox == null) return;
 
-            _captureBox.ReadOnly = _prevReadOnly;
-            _captureBox.ShortcutsEnabled = _prevShortcutsEnabled;
+            if (!commit)
+                _captureBox.Text = _prevText;
 
             _captureBox.Leave -= CaptureBox_Leave;
-            UnhookClickAwayHandlers();
-            _captureBox = null;
+            ToggleClickAwayHandlers(false);
 
+            _captureBox = null;
             _captureTarget = HotkeyTarget.None;
+
             ToggleHotkeys?.Invoke(true);
         }
 
+        private void CancelCapture() => EndCapture(commit: false);
+        private void FinishCapture() => EndCapture(commit: true);
+
         private void CaptureBox_Leave(object? sender, EventArgs e) => CancelCapture();
 
-        private void HookClickAwayHandlers()
+        private void ToggleClickAwayHandlers(bool on)
         {
-            this.MouseDown += BackgroundMouseDown;
-            tabs.MouseDown += BackgroundMouseDown;
-            tabHotkeys.MouseDown += BackgroundMouseDown;
-            tabStyle.MouseDown += BackgroundMouseDown;
-            // si tienes Panel/GroupBox dentro de tabs, engánchalos aquí también
+            if (on)
+            {
+                this.MouseDown += BackgroundMouseDown;
+                tabs.MouseDown += BackgroundMouseDown;
+                tabHotkeys.MouseDown += BackgroundMouseDown;
+                tabStyle.MouseDown += BackgroundMouseDown;
+            }
+            else
+            {
+                this.MouseDown -= BackgroundMouseDown;
+                tabs.MouseDown -= BackgroundMouseDown;
+                tabHotkeys.MouseDown -= BackgroundMouseDown;
+                tabStyle.MouseDown -= BackgroundMouseDown;
+            }
         }
-        private void UnhookClickAwayHandlers()
-        {
-            this.MouseDown -= BackgroundMouseDown;
-            tabs.MouseDown -= BackgroundMouseDown;
-            tabHotkeys.MouseDown -= BackgroundMouseDown;
-            tabStyle.MouseDown -= BackgroundMouseDown;
-        }
+
         private void BackgroundMouseDown(object? sender, MouseEventArgs e)
         {
-            if (_captureTarget != HotkeyTarget.None) CancelCapture();
+            if (_captureTarget != HotkeyTarget.None)
+                CancelCapture();
         }
 
-
+        // Tecla presionada durante captura
         public void HotkeyBox_KeyDown(object? sender, KeyEventArgs e)
         {
-            if (_captureTarget == HotkeyTarget.None) return;
-            var box = (TextBox)sender!;
-            e.SuppressKeyPress = true;
+            e.SuppressKeyPress = true; // nunca escribir caracteres
 
+            if (_captureTarget == HotkeyTarget.None || _captureBox == null) return;
+
+            // ESC → cancelar
             if (e.KeyCode == Keys.Escape)
             {
-                box.Text = _prevText;
-                _captureTarget = HotkeyTarget.None;
-                ToggleHotkeys?.Invoke(true);
-                box.FindForm()?.Focus(); // 👈 pierde el foco
+                CancelCapture();
+                // Quitar foco para evitar autorepeat
                 return;
             }
 
+            // Construir combinación (modificadores + tecla final)
             var parts = new List<string>();
             if (e.Control) parts.Add("Ctrl");
             if (e.Alt) parts.Add("Alt");
             if (e.Shift) parts.Add("Shift");
 
             var key = e.KeyCode;
+
             if (key is Keys.ControlKey or Keys.ShiftKey or Keys.Menu or Keys.LWin or Keys.RWin)
                 return;
 
-            parts.Add(KeyNameHelper.PrettyFromKeys(key));
-            box.Text = string.Join("+", parts);
+            string keyName = KeyNameHelper.PrettyFromKeys(key);
+            if (string.IsNullOrWhiteSpace(keyName))
+                keyName = key.ToString();
 
-            _captureTarget = HotkeyTarget.None;
-            ToggleHotkeys?.Invoke(true);
+            _captureBox.Text = string.Join("+", parts.Append(keyName));
 
-            // 👇 perder el foco para evitar repetición de letras
-            box.FindForm()?.Focus();
+            FinishCapture();
         }
-
 
         private void HotkeyBox_KeyPress(object? sender, KeyPressEventArgs e)
         {
-            // mientras capturas, no dejes que “escriba” caracteres
-            if (_captureTarget != HotkeyTarget.None && sender == _captureBox)
-                e.Handled = true;
-        }
-
-        
-
-
-        private static string BuildCombo(KeyEventArgs e)
-        {
-            var parts = new System.Collections.Generic.List<string>();
-            if (e.Control) parts.Add("Ctrl");
-            if (e.Alt) parts.Add("Alt");
-            if (e.Shift) parts.Add("Shift");
-            // Para Win: if ((e.Modifiers & Keys.LWin) == Keys.LWin || (e.Modifiers & Keys.RWin) == Keys.RWin) parts.Add("Win");
-
-            var key = e.KeyCode;
-
-            // si solo presionó modificadores, seguimos esperando tecla final
-            if (key is Keys.ControlKey or Keys.ShiftKey or Keys.Menu or Keys.LWin or Keys.RWin)
-                return "…";
-
-            string keyName;
-            if (key >= Keys.F1 && key <= Keys.F24) keyName = key.ToString();
-            else
-            {
-                keyName = key.ToString(); // “A”, “W”, “D1”, “OemMinus”, etc.
-            }
-
-            parts.Add(keyName);
-            return string.Join("+", parts);
+            e.Handled = true;
         }
 
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
-
-            // Si haces clic en el fondo del formulario (no sobre otro control)
-            this.ActiveControl = null;
+            ActiveControl = null;
         }
-
     }
 }

@@ -68,9 +68,9 @@ namespace SimpleCounterObs
             lblTitle.AutoSize = true;
             lblTitle.Location = new Point(25, 53);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(41, 15);
+            lblTitle.Size = new Size(33, 15);
             lblTitle.TabIndex = 1;
-            lblTitle.Text = "Título:";
+            lblTitle.Text = "Title:";
             // 
             // lblValue
             // 
@@ -120,7 +120,7 @@ namespace SimpleCounterObs
             lblOverlay.Size = new Size(72, 15);
             lblOverlay.TabIndex = 6;
             lblOverlay.Text = "URL overlay:";
-            lblOverlay.Click += lblOverlay_Click;
+            
             // 
             // txtOverlay
             // 
@@ -130,7 +130,7 @@ namespace SimpleCounterObs
             txtOverlay.Size = new Size(10, 23);
             txtOverlay.TabIndex = 7;
             txtOverlay.Visible = false;
-            txtOverlay.TextChanged += txtOverlay_TextChanged;
+            
             // 
             // btnCopy
             // 
@@ -138,7 +138,7 @@ namespace SimpleCounterObs
             btnCopy.Name = "btnCopy";
             btnCopy.Size = new Size(287, 23);
             btnCopy.TabIndex = 8;
-            btnCopy.Text = "Copiar";
+            btnCopy.Text = "Copy";
             btnCopy.UseVisualStyleBackColor = true;
             btnCopy.Click += btnCopy_Click;
             // 
@@ -148,7 +148,7 @@ namespace SimpleCounterObs
             button1.Name = "button1";
             button1.Size = new Size(82, 27);
             button1.TabIndex = 9;
-            button1.Text = "Config.";
+            button1.Text = "Settings";
             button1.UseVisualStyleBackColor = true;
             button1.Click += btnCfg_Click;
             // 

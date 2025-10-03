@@ -1,53 +1,57 @@
-:root {
-  --font-family: Segoe UI, system-ui, sans-serif;
-  --font-size: 64px;
-}
-
+/* Fondo transparente para OBS */
 html, body {
-  margin: 0;
-  background: transparent;
+    margin: 0;
+    padding: 0;
+    background: transparent !important;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
 }
 
-body {
-  color: white;
-  font-family: var(--font-family);
-  text-align: center;
+/* Contenedor principal */
+.wrapper {
+    display: flex;
+    flex-direction: row; /* 👈 título + valor en la misma fila */
+    align-items: center;
+    justify-content: center; /* centrado total dentro del overlay */
+    gap: 12px; /* espacio entre título y número */
+
+    width: 100%;
+    height: 100%;
+    /* Sin fondo ni bordes */
+    background: transparent;
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-family, Inter, Arial, system-ui);
+    color: var(--text-color, #ffffff);
 }
 
-/* Contenedor */
-#box {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  gap: .25rem;
-  padding: .5rem .75rem;
-  border-radius: 12px;
-  background: rgba(0, 0, 0, .50);
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(255, 255, 255, .2);
+/* Título (izquierda) */
+.title {
+    font-size: var(--font-size, 45px);
+    font-weight: 600;
+    margin: 0;
+    text-align: right; /* alinea su texto hacia el número */
 }
 
-/* Título y valor */
-#title {
-  font-size: 18px;
-  opacity: .85;
+/* Valor (derecha) */
+.value {
+    font-size: var(--font-size, 45px);
+    font-weight: 600;
+    line-height: 1;
+    margin: 0;
+    text-align: left;
 }
 
-#value {
-  font-size: var(--font-size);
-  font-weight: 800;
-  letter-spacing: .5px;
-  text-shadow: 0 2px 8px rgba(0,0,0,.35);
-  line-height: 1.05;
+/* Solo número (sin título, sin espacio extra) */
+.minimal .title {
+    display: none;
 }
 
-/* Modo "solo número": sin caja ni título */
-.minimal #box {
-  background: none;
-  border: none;
-  padding: 0;
-}
-
-.hide-title #title {
-  display: none;
+/* Versión minimal: sin relleno ni sombras */
+.minimal {
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
 }
